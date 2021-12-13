@@ -15,6 +15,7 @@ import java.util.Set;
 @Table(name = "usr")
 @Getter
 @Setter
+
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
@@ -35,6 +36,9 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Message> messages;
 
     public boolean isAdmin(){
         return roles.contains(Role.ADMIN);
@@ -64,6 +68,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isActive();
     }
-
 
 }
